@@ -27,17 +27,17 @@ function showHiddenTopNav(){
 /**
  * 弹出模版标签帮助窗口
  * @param title 窗口的标题文字
- * @param htmlNameTag 帮助的网址后面的描点名字
+ * @param htmlNameTag 帮助的网址后面的描点名字。v4.8更新以后，这里便是打开的url
  * @param height 弹出窗口的宽度,整数。会自动拼接px
  * @param height 弹出窗口的高度,整数。会自动拼接px
  */ 
 function popupTemplateTagHelp(title,htmlNameTag, width, height){
-	var url = '';
-	if(htmlNameTag.indexOf('http://') > -1){
-		url = htmlNameTag;
-	}else{
-		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
-	}
+	var url = htmlNameTag;
+//	if(htmlNameTag.indexOf('http://') > -1){
+//		url = htmlNameTag;
+//	}else{
+//		url = 'http://res.weiunity.com/html/templateTag/index.html#'+htmlNameTag;
+//	}
 	layer.open({
 		type: 2 //iframe
 		,title:title
@@ -121,8 +121,11 @@ function selectedLeftMenu(id){
 }
 
 
-//模版页面列表，引导打开
-function openTemplatePageList(){
+/**
+ * 模版页面列表，引导打开
+ * @param templatePageName templatePage.name 要打开编辑的模版页面的name。  如果传入''空字符串，则直接进入模版页面列表，不自动打开某个模版页面。 另外，如果传入 templatepage_type_index 则会编辑首页
+ */
+function openTemplatePageList(templatePageName){
 	//收起所有菜单
 	backAllMenu();
 	//展开某个一级栏目
@@ -130,9 +133,17 @@ function openTemplatePageList(){
 	//选中某个菜单
 	selectedLeftMenu('dd_mobanyemian');
 	
-	//打开模版管理
-	loadIframeByUrl('templatePageList.do');
+	
+	if(templatePageName.length == 0){
+		//打开模版页面列表
+		loadIframeByUrl('templatePageList.do');
+	}else{
+		//编辑某个模版页面
+		loadIframeByUrl('templatePageList.do?templatePageName='+templatePageName);
+	}
 }
+
+
 
 //绑定域名，引导打开
 function openBindDomain(){
